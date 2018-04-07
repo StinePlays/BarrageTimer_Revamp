@@ -4,6 +4,7 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "moebius92.ActiveSkills";
 import "moebius92.Handlers";
+import "moebius92.BarrageTimer.OptionsWindow";
 
 BarrageTimerWindow = class(Turbine.UI.Window);
 
@@ -25,9 +26,13 @@ function BarrageTimerWindow:Constructor()
 	self.visible = false;
 	self.dragging = false;
 	self.move = false;
-	self.size = 20;
+	self.size = 20;	
 
 	self.settings = BarrageTimerWindowLoadSettings();
+
+	settings.firstBarColor = Turbine.UI.Color.SteelBlue;
+	settings.secondBarColor = Turbine.UI.Color.Red;
+	settings.opacityBarOne = 0.5;
 
 	self:SetPosition(self.settings.x, self.settings.y);
 	self:SetSize(self.size * 2, self.size * 5);
@@ -44,9 +49,10 @@ function BarrageTimerWindow:Constructor()
 			self.bars[i][j]:SetPosition((i - 1) * self.size, 0);
 			self.bars[i][j]:SetSize(self.size, self.size * 5);
 			if i == 1 then
-				self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.25, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
+				-- self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarOne, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
 			else
-				self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.25, 1.00, 0.25 * (3 - j), 0.25 * (3 - j)));
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 1.00, 0.25 * (3 - j), 0.25 * (3 - j)));
 			end
 			self.bars[i][j]:SetParent(self);
 			self.bars[i][j]:SetMouseVisible(false);
@@ -74,11 +80,11 @@ end
 function BarrageTimerWindow:SetupMenu()
 	self.options = Turbine.UI.MenuItem("Options");
 	menuItems = menu:GetItems();
-	menuItems.Add(self.options);
+	menuItems:Add(self.options);
 
 	-- open the option window when clicked
 	menuItems:Get(1).Click = function(sender, args)
-		--self:OpenOptions();
+		options = OptionsWindow:Constructor(self);
 	end
 end
 
@@ -221,7 +227,7 @@ function BarrageTimerWindow:SaveSettings()
 end
 
 function BarrageTimerWindowLoadSettings()
-	local settings = Turbine.PluginData.Load(Turbine.DataScope.Character, "BarrageTimer");
+	settings = Turbine.PluginData.Load(Turbine.DataScope.Character, "BarrageTimer");
 	if type(settings) == "string" then
 		settings = loadstring("return " .. settings .. ";")();
 	end
