@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Plugin>
+	<Information>
+		<Name>BarrageTimer</Name>
+		<Author>moebius92</Author>
+		<Version>0.1</Version>
+	</Information>
+	<Package>moebius92.BarrageTimer.Main</Package>
+</Plugin>
