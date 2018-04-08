@@ -1,10 +1,10 @@
+import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "Thurallor.Common.UI.ColorPicker";
 
 OptionsWindow = class(Turbine.UI.Lotro.Window);
 OptionsPanel = class(Turbine.UI.Control);
-colorPickerFirstBar = {};
 
 function OptionsWindow:Constructor(parent)
 	Turbine.UI.Lotro.Window.Constructor( self );
@@ -24,15 +24,6 @@ function OptionsWindow:Constructor(parent)
 	self.panel = OptionsPanel(parent);
 	self.panel:SetPosition(0,40);
 	self.panel:SetParent(self);
-   	
-	-- have the main window close the options
-   self.VisibleChanged = function(sender,args)
-      if(self:IsVisible() == false) then
-         if(parent ~= nil) then
-            --parent:CloseOptions();
-         end
-      end
-   end
    
 	self:SetVisible(true); 
    
@@ -41,9 +32,6 @@ end
 
 function OptionsPanel:Constructor(parent)
     Turbine.UI.Control.Constructor(self);
-  
-    --  add a check to see if we load completely
-    -- self.loaded = false;
      
     -- set size of window	
     self.width = 220;
@@ -54,12 +42,7 @@ function OptionsPanel:Constructor(parent)
     self.mainWindow = parent;
     
     -- set the default window settings
-    --self:SetPosition(self.windowWidth /2 - self.width/2,self.windowHeight/2 - self.height/2);	
     self:SetSize( self.width, self.height );
-    --self:SetBlendMode(Turbine.UI.BlendMode.Undefined);
-    --self:SetBackColor( Turbine.UI.Color(0.0,0,0,0) );
-    --self:SetText( optionsTitleString );
-    --self:SetOpacity( 1 );
     
     -- add the option items    
     self:AddGeneralItems();
@@ -108,25 +91,45 @@ function OptionsPanel:AddGeneralItems()
     self.SecondBarColorBox:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
     self.SecondBarColorBox:SetParent(self);
     self.SecondBarColorBox:SetBackColor(settings.secondBarColor)
-    self.SecondBarColorBox:SetVisible(true);
+    self.SecondBarColorBox:SetVisible(true);    
 
-    
     --[[ Event handlers ]]
     self.FirstBarColorBox.MouseUp = function(sender, args)
         colorPickerFirstBar = Thurallor.UI.ColorPicker(self.FirstBarColorBox:GetBackColor());
-    end
-
-    colorPickerFirstBar.ColorChanged = function(picker)
-        local newColor = picker:GetColor();
-        self.parent.FirstBarColorBox:SetBackColor(color);
-    end
     
-    colorPickerFirstBar.Accepted = function(picker)
-        local color = picker:GetColor();
-        settings.firstBarColor = color;
-        self.parent.FirstBarColorBox:SetBackColor(color);
-    end
+        colorPickerFirstBar.ColorChanged = function(picker)
+            local color = picker:GetColor();
+            self.FirstBarColorBox:SetBackColor(color);
+        end
+
+        colorPickerFirstBar.Accepted = function(picker)
+            local color = picker:GetColor();
+            settings.firstBarColor = color;
+            self.FirstBarColorBox:SetBackColor(color);
+            self.mainWindow:SaveSettings();
+        end
+    end    
+
+    self.SecondBarColorBox.MouseUp = function(sender, args)
+        colorPickerSecondBar = Thurallor.UI.ColorPicker(self.SecondBarColorBox:GetBackColor());
+    
+        colorPickerSecondBar.ColorChanged = function(picker)
+            local color = picker:GetColor();
+            self.SecondBarColorBox:SetBackColor(color);
+        end
+
+        colorPickerSecondBar.Accepted = function(picker)
+            local color = picker:GetColor();
+            settings.secondBarColor = color;
+            self.SecondBarColorBox:SetBackColor(color);
+            self.mainWindow:SaveSettings();
+        end
+    end 
 end
+
+
+
+
 
 
 

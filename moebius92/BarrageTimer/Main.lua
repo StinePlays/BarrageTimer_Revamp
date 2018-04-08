@@ -30,8 +30,7 @@ function BarrageTimerWindow:Constructor()
 
 	self.settings = BarrageTimerWindowLoadSettings();
 
-	settings.firstBarColor = Turbine.UI.Color.SteelBlue;
-	settings.secondBarColor = Turbine.UI.Color.Red;
+	settings.secondBarColor = Turbine.UI.Color.White;
 	settings.opacityBarOne = 0.5;
 
 	self:SetPosition(self.settings.x, self.settings.y);
@@ -242,6 +241,10 @@ function BarrageTimerWindowLoadSettings()
 
 	if not settings.y then
 		settings.y = 0;
+	end
+
+	if not settings.firstBarColor then
+		settings.firstBarColor = Turbine.UI.Color.White;
 	end
 
 	return settings;
