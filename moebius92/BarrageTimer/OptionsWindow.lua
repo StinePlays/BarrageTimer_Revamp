@@ -74,7 +74,7 @@ function OptionsPanel:AddGeneralItems()
     self.FirstBarColorBox:SetPosition(150,0);
     self.FirstBarColorBox:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
     self.FirstBarColorBox:SetParent(self);
-    self.FirstBarColorBox:SetBackColor(settings.firstBarColor);
+    self.FirstBarColorBox:SetBackColor(Turbine.UI.Color(settings.firstBarColor.A, settings.firstBarColor.R, settings.firstBarColor.G, settings.firstBarColor.B));
     self.FirstBarColorBox:SetVisible(true);
 
     self.SecondBarColorLabel = Turbine.UI.Label();
@@ -90,7 +90,7 @@ function OptionsPanel:AddGeneralItems()
     self.SecondBarColorBox:SetPosition(150,30);
     self.SecondBarColorBox:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
     self.SecondBarColorBox:SetParent(self);
-    self.SecondBarColorBox:SetBackColor(settings.secondBarColor)
+    self.SecondBarColorBox:SetBackColor(Turbine.UI.Color(settings.secondBarColor.A, settings.secondBarColor.R, settings.secondBarColor.G, settings.secondBarColor.B));
     self.SecondBarColorBox:SetVisible(true);    
 
     --[[ Event handlers ]]
@@ -107,6 +107,7 @@ function OptionsPanel:AddGeneralItems()
             settings.firstBarColor = color;
             self.FirstBarColorBox:SetBackColor(color);
             self.mainWindow:SaveSettings();
+            self.mainWindow.SetupBars();
         end
     end    
 
@@ -123,6 +124,7 @@ function OptionsPanel:AddGeneralItems()
             settings.secondBarColor = color;
             self.SecondBarColorBox:SetBackColor(color);
             self.mainWindow:SaveSettings();
+            self.mainWindow.SetupBars();
         end
     end 
 end

@@ -30,8 +30,8 @@ function BarrageTimerWindow:Constructor()
 
 	self.settings = BarrageTimerWindowLoadSettings();
 
-	settings.secondBarColor = Turbine.UI.Color.White;
 	settings.opacityBarOne = 0.5;
+	settings.opacityBarTwo = 0.5;
 
 	self:SetPosition(self.settings.x, self.settings.y);
 	self:SetSize(self.size * 2, self.size * 5);
@@ -40,23 +40,7 @@ function BarrageTimerWindow:Constructor()
 	self:SetWantsKeyEvents(true);
 	self:SetVisible(true);
 
-	self.bars = { };
-	for i = 1, 2, 1 do
-		self.bars[i] = { };
-		for j = 1, 3, 1 do
-			self.bars[i][j] = Turbine.UI.Control();
-			self.bars[i][j]:SetPosition((i - 1) * self.size, 0);
-			self.bars[i][j]:SetSize(self.size, self.size * 5);
-			if i == 1 then
-				-- self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
-				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarOne, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
-			else
-				self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 1.00, 0.25 * (3 - j), 0.25 * (3 - j)));
-			end
-			self.bars[i][j]:SetParent(self);
-			self.bars[i][j]:SetMouseVisible(false);
-		end
-	end
+	BarrageTimerWindowSetupBars();
 
 	self.timers = { };
 	self.timers[1] = { };
@@ -74,6 +58,26 @@ function BarrageTimerWindow:Constructor()
 
 	self:Redraw();
 
+end
+
+function BarrageTimerWindowSetupBars()
+	self.bars = {};
+	for i = 1, 2, 1 do
+		self.bars[i] = { };
+		for j = 1, 3, 1 do
+			self.bars[i][j] = Turbine.UI.Control();
+			self.bars[i][j]:SetPosition((i - 1) * self.size, 0);
+			self.bars[i][j]:SetSize(self.size, self.size * 5);
+			if i == 1 then
+				-- self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarOne, settings.firstBarColor.R, settings.firstBarColor.G, settings.firstBarColor.B));
+			else
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarTwo, settings.secondBarColor.R, settings.secondBarColor.G, settings.secondBarColor.B));
+			end
+			self.bars[i][j]:SetParent(self);
+			self.bars[i][j]:SetMouseVisible(false);
+		end
+	end
 end
 
 function BarrageTimerWindow:SetupMenu()
