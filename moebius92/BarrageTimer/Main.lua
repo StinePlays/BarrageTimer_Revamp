@@ -76,8 +76,14 @@ function BarrageTimerWindow:SetupBars()
 			end
 			self.bars[i][j]:SetParent(self);
 			self.bars[i][j]:SetMouseVisible(false);
+
+			blackbar = Turbine.UI.Control();
+			blackbar:SetSize(self.size, 1);
+			blackbar:SetBackColor((Turbine.UI.Color.Black));
+			blackbar:SetParent(self.bars[i][j]); 
+			blackbar:SetMouseVisible(false);
 		end
-	end
+	end	
 end
 
 function BarrageTimerWindow:SetBarColors()
@@ -261,6 +267,10 @@ function BarrageTimerWindowLoadSettings()
 
 	if not settings.firstBarColor then
 		settings.firstBarColor = Turbine.UI.Color.White;
+	end
+
+	if not settings.secondBarColor then
+		settings.secondBarColor = Turbine.UI.Color.White;
 	end
 
 	return settings;
