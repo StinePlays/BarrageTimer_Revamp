@@ -40,8 +40,8 @@ function BarrageTimerWindow:Constructor()
 	self:SetWantsKeyEvents(true);
 	self:SetVisible(true);
 
-	self.bars = {};
-	self:SetupBars(self.size);
+	self.bars = { };
+	self:SetupBars();
 
 	self.timers = { };
 	self.timers[1] = { };
@@ -76,6 +76,18 @@ function BarrageTimerWindow:SetupBars()
 			end
 			self.bars[i][j]:SetParent(self);
 			self.bars[i][j]:SetMouseVisible(false);
+		end
+	end
+end
+
+function BarrageTimerWindow:SetBarColors()
+	for i = 1, 2, 1 do
+		for j = 1, 3, 1 do
+			if i == 1 then
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarOne, settings.firstBarColor.R, settings.firstBarColor.G, settings.firstBarColor.B));
+			else
+				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarTwo, settings.secondBarColor.R, settings.secondBarColor.G, settings.secondBarColor.B));
+			end
 		end
 	end
 end
