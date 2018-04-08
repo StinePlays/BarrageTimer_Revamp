@@ -107,7 +107,7 @@ function OptionsPanel:AddGeneralItems()
             settings.firstBarColor = color;
             self.FirstBarColorBox:SetBackColor(color);
             self.mainWindow:SaveSettings();
-            --self.mainWindow.BarrageTimerWindowSetupBars();
+            self.mainWindow:SetupBars();
         end
     end    
 
@@ -124,7 +124,7 @@ function OptionsPanel:AddGeneralItems()
             settings.secondBarColor = color;
             self.SecondBarColorBox:SetBackColor(color);
             self.mainWindow:SaveSettings();
-            --self.mainWindow.BarrageTimerWindowSetupBars();
+            self.mainWindow:SetupBars();
         end
     end 
 end

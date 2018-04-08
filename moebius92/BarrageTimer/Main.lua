@@ -41,7 +41,7 @@ function BarrageTimerWindow:Constructor()
 	self:SetVisible(true);
 
 	self.bars = {};
-	self.SetupBars(self.size);
+	self:SetupBars(self.size);
 
 	self.timers = { };
 	self.timers[1] = { };
@@ -61,13 +61,13 @@ function BarrageTimerWindow:Constructor()
 
 end
 
-function BarrageTimerWindow:SetupBars(size)
+function BarrageTimerWindow:SetupBars()
 	for i = 1, 2, 1 do
 		self.bars[i] = { };
 		for j = 1, 3, 1 do
 			self.bars[i][j] = Turbine.UI.Control();
-			self.bars[i][j]:SetPosition((i - 1) * size, 0);
-			self.bars[i][j]:SetSize(size, size * 5);
+			self.bars[i][j]:SetPosition((i - 1) * self.size, 0);
+			self.bars[i][j]:SetSize(self.size, self.size * 5);
 			if i == 1 then
 				-- self.bars[i][j]:SetBackColor(Turbine.UI.Color(0.5, 0.25 * (3 - j), 0.25 * (3 - j), 1.00));
 				self.bars[i][j]:SetBackColor(Turbine.UI.Color(settings.opacityBarOne, settings.firstBarColor.R, settings.firstBarColor.G, settings.firstBarColor.B));
